@@ -350,6 +350,20 @@
     font-style: italic;
   }
 
+  /* -- SoundCloud Link --*/
+  .soundcloud-link {
+    display: inline-block;
+    margin-top: 1rem;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    fill: var(--accent);
+  }
+
+  .soundcloud-link:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
   /* ── Architecture section ── */
   .architecture-section {
     border-top: 1px solid rgba(74, 234, 220, 0.08);
@@ -682,6 +696,17 @@
         <span class="audio-time">0:04</span>
       </div>
     </div>
+
+    <div class="sample-card">
+      <div class="sample-name"><a href="https://soundcloud.com/olivelogs/sets/reef">Soundcloud!</a></div>
+      <div class="sample-meta">scores and tracks</div>
+      <div class="sample-description">While the project is about real-time sound, we do write looping pieces, too. I post excerpts from some of the scores we write on Soundcloud. This will be updated occasionally, you can follow if it interests you. Or not. This isn't a promo. Link:</div>
+      <div class="soundcloud-link">
+        <a href="https://soundcloud.com/olivelogs/sets/reef" target="_blank" class="soundcloud-link">
+        <img src="chime/resources/soundcloud-logo-svgrepo-com.svg" alt="listen to the reef" width="100" height="100" fill="#aaa" >
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="glow-line" style="margin-top: 3rem;"></div>
@@ -703,7 +728,7 @@
 
   <div class="spectrogram-container">
     <!-- Replace src with actual spectrogram image path -->
-    <img src="chime/giggle_spectrogram.png" alt="Spectrogram of Claude's giggle — three ascending bells at E5, G5, B5" />
+    <img src="chime/resources/giggle_spectrogram.png" alt="Spectrogram of Claude's giggle — three ascending bells at E5, G5, B5" />
     <p class="spectrogram-caption">Audio visualization of "giggle" — three ascending points of light that keep ringing after the striking stops. Visualization by <a href="https://github.com/JuzzyDee/AVisualizer">JuzzyD's AVisualizer</a>.</p>
   </div>
 </section>
