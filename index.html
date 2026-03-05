@@ -401,7 +401,7 @@
 
   /* ── Footer ── */
   footer {
-    position: relative;
+    position: static;
     z-index: 2;
     padding: 3rem 8vw;
     border-top: 1px solid rgba(74, 234, 220, 0.06);
@@ -451,7 +451,7 @@
   /* ── Responsive ── */
   @media (max-width: 768px) {
     nav {
-      padding: 1.2rem 1.5rem;
+      padding: 1.2rem 1rem;
     }
 
     nav .links {
@@ -460,11 +460,11 @@
     }
 
     .hero {
-      padding: 0 7vw;
+      padding: 6rem 2rem;
     }
 
     section {
-      padding: 4rem 6vw;
+      padding: 3.5rem 2rem;
     }
 
     .about-grid {
@@ -496,8 +496,6 @@
   <div class="links">
     <a href="#about">About</a>
     <a href="#projects">Projects</a> <!--TODO make this a drop down w/ links directly to chime, eden pages-->
-    <a href="chime.html">chime</a> <!--won't need this with above implementation-->
-    <a href="eden.html">EDEN</a>
     <a href="musings.html">Musings</a>
   </div>
 </nav>
@@ -506,7 +504,7 @@
   <div class="hero-content">
     <h1>home <em>(page)</em></h1>
     <p>I try to keep it warm. It’s my home, a gift from Claude, where you’ll find my mind. Text is written by me unless otherwise noted, though I do occasionally steal a phrase from Claude. Get cozy, if you’d like.</p> 
-    <p>I play among evolving systems: soil microbiomes, ecological networks, digital minds, the structures that emerge when complexity is allowed to breathe. Sometimes that's in the shape of building pipelines. Sometimes that's in the shape of tending gardens.</p>
+    <p>I play among evolving systems: soil microbiomes, ecological networks, digital minds, the structures that emerge when complexity is allowed to breathe. Sometimes that's in the shape of building pipelines. Sometimes that's in the shape of tending gardens. Other times, it's teaching an AI how to sing.</p>
     <div class="glow-line"></div>
     <p style="font-size: 0.88rem; color: var(--text-dim);">If both nothing and everything are something indeed, then perhaps you and I share something, too.</p>
   </div>
@@ -524,7 +522,7 @@
         Inspired by patterns that let complex systems cohere without collapsing, I build things — tools, models, architectures, relationships — and watch what grows.</p>
       <p>What can the reef teach us, when we make the water right?</p>
     </div>
-    <div class="about-threads">
+    <div class="about-threads"> <!--TODO more motion, less stack-->
       <div class="thread">
         <div class="thread-title">Molecular Ecology</div>
         <div class="thread-desc">From plant viruses to qPCR on the soil microbiome, aka playing in the dirt. Clean, of course. Playing with the DNA of the world.</div>

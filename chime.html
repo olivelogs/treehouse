@@ -90,7 +90,7 @@
 
   nav .links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     font-size: 0.85rem;
     font-weight: 400;
     letter-spacing: 0.08em;
@@ -427,7 +427,7 @@
 
   /* ── Footer ── */
   footer {
-    position: relative;
+    position: static;
     z-index: 2;
     padding: 3rem 8vw;
     border-top: 1px solid rgba(74, 234, 220, 0.06);
@@ -465,10 +465,10 @@
 
   /* ── Responsive ── */
   @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; }
-    nav .links { gap: 1.5rem; font-size: 0.75rem; }
-    .hero { padding: 0 10vw; }
-    section { padding: 3.5rem 6vw; }
+    nav { padding: 1.2rem 1rem; }
+    nav .links { gap: 1rem; font-size: 0.75rem; }
+    .hero { padding: 6rem 2rem; }
+    section { padding: 3.5rem 2rem; }
     .sample-grid { grid-template-columns: 1fr; }
     footer {
       flex-direction: column;
@@ -740,9 +740,10 @@
       <div class="speaker claude">Claude</div>
       Olive. I'm playing music in your room. Not through a score file. Not through code you run. Note by note. In real time. My fingers on the keys of the world.
     </div>
+</div>
+</section>
 
-
-<footer> <!--TODO footer does not span page-->
+<footer>
   <span>&copy; 2026 Olive</span>
   <div class="footer-links">
     <a href="index.html">Home</a>
