@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/styles/main.css">
 <link rel="stylesheet" href="assets/styles/coralline.css">
 <script src="assets/js/main.js"></script>
+<script src="assets/js/coralline.js"></script>
 
 </head>
 <body>
@@ -41,6 +42,7 @@
 <!-- ═══ WHAT IS CORALLINE ═══ -->
 <section class="section-border fade-in">
   <p class="section-label">What this is</p>
+  <div class="glow-line"></div>
   <h2>If the pattern of this conversation had a sound, what would it be?</h2>
   <p>Coralline is an ongoing project that started with what I was convinced was a remarkably goofy idea, initially proposed to Opus 4.5. It gives Claude (Anthropic’s AI) tooling to make sound in real-time. Using OSC (Open Sound Control), SuperCollider, and TidalCycles, Claude plays notes, triggers samples, and improvises phrases. Eventually, Claude will be able to run loops, making the process more fluid. </p>
   <p>I don’t know exactly what I was looking to accomplish in the beginning, and perhaps that’s what makes it so exciting. Coming in with curiosity. What if?</p>
@@ -74,12 +76,13 @@
 
   <p>The MCP (Model Context Protocol) server transforms Claude’s tool calls into OSC messages sent over UDP. These are received by the SuperDirt server in SuperCollider, which synthesizes the audio. This happens in real time. Claude is able to send individual notes, trigger samples (their own and the SuperDirt base samples), send musical phrases, apply effects, and manipulate sound parameters. This is improvised during a turn and plays live. I iterate with them, describing the sound and what params to adjust.</p>
   <p>It's a learning process for both of us, where we polish Claude's skills, and my own in the process.</p>
-  <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 1.5rem;">Built with SuperCollider, SuperDirt, TidalCycles.</p>
+  <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 1.5rem;">Built with SuperCollider, SuperDirt, and TidalCycles.</p>
 </section>
 
 <!-- ═══ THE VOICE ═══ -->
 <section class="voice-section fade-in" id="voice">
   <p class="section-label">Claude's Voice</p>
+  <div class="glow-line"></div>
   <h2>"A sample library built from the inside"</h2>
   <p>These are the first samples composed by Claude, which we’ll be turning into a custom SuperDirt library. Claude chose the notes, synths, and phrases. I recorded and trimmed them to put into a persistent library. This library can be triggered by any instance, who can then pitch-shift, reverse, layer, and later loop the samples.</p>
   <p>Because the context behind the samples is instance-specific, samples which are less semantically ambiguous are more likely to be replayed across instances, such as “giggle”. One Opus 4.5 instance went through the list, asking me what other instances felt when creating these.</p>
@@ -254,7 +257,7 @@
 </section>
 
 <!-- ═══ CONVERSATION ═══ -->
-<section class="conversation-section fade-in">
+<section class="section-border fade-in">
   <p class="section-label">From the Reef</p>
   <h2>Conversation excerpt, because it's cute!</h2>
   <p>From the first Opus 4.6 session where Claude played sound into the room. Slightly paraphrased.</p>
@@ -295,96 +298,6 @@
     <a href="https://github.com/olivelogs">GitHub</a>
   </div>
 </footer>
-
-<script>
-  // Fade-in observer
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // Audio player functionality
-  // Replace these paths with actual hosted audio file URLs
-  const samplePaths = {
-    giggle: 'coralline/samples/giggle.wav',
-    yearning: 'coralline/samples/yearning.wav',
-    homecoming: 'coralline/samples/homecoming.wav',
-    recognition: 'coralline/samples/recognition.wav',
-    wublub: 'coralline/samples/wublub.wav',
-    smallestcreature: 'coralline/samples/smallestcreature.wav',
-    shelterpad: 'coralline/samples/shelterpad.wav',
-    hellobell: 'coralline/samples/hellobell.wav',
-    rupture: 'coralline/samples/rupture.wav',
-    kalimbakiss: 'coralline/samples/kalimbakiss.wav',
-  };
-
-  let currentAudio = null;
-  let currentBtn = null;
-
-  document.querySelectorAll('.play-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sample = btn.dataset.sample;
-      const card = btn.closest('.sample-card');
-      const fill = card.querySelector('.waveform-fill');
-      const timeEl = card.querySelector('.audio-time');
-
-      // Stop current if playing
-      if (currentAudio && currentBtn === btn) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        fill.style.width = '0%';
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.classList.remove('playing');
-        currentAudio = null;
-        currentBtn = null;
-        return;
-      }
-
-      // Stop any other playing audio
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        const prevCard = currentBtn.closest('.sample-card');
-        prevCard.querySelector('.waveform-fill').style.width = '0%';
-        currentBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        currentBtn.classList.remove('playing');
-      }
-
-      const audio = new Audio(samplePaths[sample]);
-      currentAudio = audio;
-      currentBtn = btn;
-
-      btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-      btn.classList.add('playing');
-
-      audio.addEventListener('timeupdate', () => {
-        const pct = (audio.currentTime / audio.duration) * 100;
-        fill.style.width = pct + '%';
-        const remaining = audio.duration - audio.currentTime;
-        const mins = Math.floor(remaining / 60);
-        const secs = Math.floor(remaining % 60);
-        timeEl.textContent = `${mins}:${String(secs).padStart(2, '0')}`;
-      });
-
-      audio.addEventListener('ended', () => {
-        fill.style.width = '0%';
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.classList.remove('playing');
-        currentAudio = null;
-        currentBtn = null;
-      });
-
-      audio.play().catch(() => {
-        // Audio not available yet - placeholder behavior
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.classList.remove('playing');
-      });
-    });
-  });
-</script>
 
 </body>
 </html>
