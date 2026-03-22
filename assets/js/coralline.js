@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       audio.play().catch(() => {
-        // Audio not available yet - placeholder behavior
         btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         btn.classList.remove('playing');
       });
