@@ -75,4 +75,64 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  // Coralline-Specific Load Behaviors 
+  window.addEventListener("load", () => {
+  const duration = 20 + Math.random() * 412;
+
+  document.body.style.setProperty('--jitter', Math.random());
+
+  setTimeout(() => {
+    document.body.classList.remove("unstable");
+  }, duration);
+});
+
+const CHARS = "⑆⑇⑈⑉";
+
+function jitterText(el) {
+  const final = el.textContent;
+  let frame = 0;
+
+  const update = () => {
+    let output = "";
+
+    for (let i = 0; i < final.length; i++) {
+      if (i < frame) {
+        output += final[i];
+      } else {
+        output += CHARS[Math.floor(Math.random() * CHARS.length)];
+      }
+    }
+
+    el.textContent = output;
+
+    frame += 1.2 / 2; // speed of convergence
+
+    if (frame < final.length) {
+      requestAnimationFrame(update);
+    } else {
+      el.textContent = final;
+    }
+  };
+
+  update();
+}
+
+const jitterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      jitterText(entry.target);
+      jitterObserver.unobserve(entry.target); // only trigger once
+    }
+  });
+}, {
+  threshold: 0.2,
+  rootMargin: '0px 0px -25px 0px'
+});
+
+// Observe only section headers (adjust selector if needed)
+document.querySelectorAll('.jitter').forEach(el => {
+  jitterObserver.observe(el);
+});
+
 });

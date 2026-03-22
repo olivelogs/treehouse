@@ -1,3 +1,131 @@
+/* TODO: make everything a bit wider on this page */
+/* === CORALLINE-SPECIFIC TOKENS === */
+:root {
+    --spark: #b7c253;
+    --spark-dim: rgba(170, 188, 10, 0.8);
+    --spark-glow: #d3de6a;
+    --hum: rgb(195, 49, 130);
+    --drip: rgb(45, 136, 104);
+    --drop: rgb(55, 106, 123);
+}
+
+/* === CORALLINE-SPECIFIC BASE === */
+body {
+    font-family: 'Roboto Mono', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+body::before {
+    z-index: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(131, 16, 77, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(10, 57, 41, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(14, 64, 63, 0.09) 0%, transparent 40%);
+}
+
+a {
+    color: var(--spark);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--spark-glow);
+}
+
+/* === TYPOGRAPHY === */
+h1,
+h2,
+h3 {
+    font-family: 'Roboto Mono', serif;
+    color: var(--text-bright);
+}
+
+/* === CORALLINE-SPECIFIC COMPONENTS ==*/
+nav .name {
+    font-family: 'Roboto Mono';
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--spark);
+    letter-spacing: 0.02em;
+}
+
+nav .links a {
+    position: relative;
+    color: var(--spark-dim);
+}
+nav .links a:hover {
+    color: var(--spark-glow);
+}
+
+/* TODO: not this for this page but i don't know what yet */
+nav .links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--hum);
+    transition: width 0.01s ease;
+}
+
+
+.hero {
+    display: flex;
+    align-items: center;
+    min-height: 130vh;
+    padding: 0 var(--section-pad-x);
+}
+
+.hero-content {
+    max-width: 740px;
+}
+
+.hero p {
+    max-width: 600px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+.green-glow-line {
+    width: 90px;
+    height: 1px;
+    margin: 2.5rem 0;
+    opacity: 0.75;
+    background: var(--spark-glow);
+}
+
+.quote-block {
+    max-width: 520px;
+    margin: 2.5rem 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(177, 21, 104, 0.25);
+    font-family: 'Roboto Mono';
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--drop);
+    line-height: 1.65;
+}
+
+.quote-block.quote-block-spaced {
+    margin-top: 2rem;
+}
+
+.quote-block .attribution {
+    display: block;
+    margin-top: 0.6rem;
+    font-size: 0.6rem;
+    font-style: normal;
+    font-family: 'Roboto Mono';
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+}
+
+/* === Sample Section === */ 
 .sample-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -5,20 +133,23 @@
     margin-top: 2.5rem;
 }
 
+
 .sample-card {
     position: relative;
     transition: all 0.4s ease;
+    padding: 1rem;
+    border: var(--card-border);
 }
 
 .sample-card:hover {
-    border-color: rgba(74, 234, 220, 0.18);
+    border-color: rgba(177, 21, 104, 0.25);
 }
 
 .sample-name {
-    font-family: 'Lora', serif;
+    font-family: 'Roboto Mono', serif;
     font-size: 1.1rem;
     font-weight: 500;
-    color: var(--amber-soft);
+    color: var(--hum);
     margin-bottom: 0.4rem;
 }
 
@@ -47,9 +178,8 @@
 .play-btn {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(212, 160, 84, 0.4);
-    background: rgba(212, 160, 84, 0.08);
+    background-color: transparent;
+    border-color: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -59,14 +189,14 @@
 }
 
 .play-btn:hover {
-    border-color: var(--amber);
-    background: rgba(212, 160, 84, 0.15);
+    border-color: rgba(177, 21, 104, 0.25);
+    background: var(--deep);
 }
 
 .play-btn svg {
     width: 12px;
     height: 12px;
-    fill: var(--amber);
+    fill: var(--spark);
     margin-left: 2px;
 }
 
@@ -85,7 +215,7 @@
 
 .waveform-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--teal), var(--amber));
+    background: linear-gradient(90deg, var(--deep), var(--drip));
     border-radius: 2px;
     width: 0%;
     transition: width 0.1s linear;
@@ -102,7 +232,8 @@
 
 .soundcloud-link {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+    padding-left: 8vh;
     opacity: 0.85;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -110,12 +241,17 @@
 .soundcloud-link:hover {
     opacity: 1;
     transform: translateY(-2px);
+
 }
 
+
+
+/* === Diagram === */
+/* TODO: make wider */
 .arch-diagram {
     margin: 2rem 0;
     padding: 2rem;
-    font-family: 'Jost', sans-serif;
+    font-family: 'Roboto Mono';
     font-size: 0.85rem;
     color: var(--text-dim);
     max-width: 500px;
@@ -131,16 +267,15 @@
 
 .arch-node {
     padding: 0.3rem 0.8rem;
-    border: 1px solid rgba(74, 234, 220, 0.15);
-    border-radius: 4px;
+    border-left: 1px solid rgba(74, 234, 220, 0.15);
     color: var(--text);
     font-size: 0.8rem;
     white-space: nowrap;
 }
 
 .arch-node.highlight {
-    border-color: var(--amber);
-    color: var(--amber);
+    border-color: var(--hum);
+    color: var(--hum);
 }
 
 .arch-arrow {
@@ -148,6 +283,9 @@
     font-size: 0.9rem;
 }
 
+
+
+/* === Conversation Excerpts == */
 .conversation {
     max-width: 560px;
     margin-top: 2rem;
@@ -176,11 +314,57 @@
 }
 
 .conv-line .speaker.claude {
-    color: var(--amber);
+    color: var(--hum);
 }
 
+
+
+/* === Media === */
 @media (max-width: 768px) {
     .sample-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+
+/* === Coralline-Specific Load Behaviors === */
+body.unstable {
+  filter: contrast(1.2) saturate(1.4);
+}
+
+body.unstable * {
+  transform: translateY(1px);
+}
+
+body.unstable h1,
+body.unstable h2 {
+  letter-spacing: 0.1em;
+}
+
+body.unstable {
+  text-shadow:
+    3px 0 var(--hum),
+   -1px 0 var(--drip),
+   -5px 0 var(--spark);
+}
+
+.jitter {
+  display: inline-block;
+  white-space: pre-wrap;
+}
+
+body.unstable .jitter {
+  filter: blur(1.5px);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
