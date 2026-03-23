@@ -1,5 +1,7 @@
 // Audio player functionality
 document.addEventListener("DOMContentLoaded", () => {
+  const PLAY_ICON = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  const PAUSE_ICON = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
   const samplePaths = {
     giggle: 'coralline/samples/giggle.wav',
     yearning: 'coralline/samples/yearning.wav',
@@ -7,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     recognition: 'coralline/samples/recognition.wav',
     wublub: 'coralline/samples/wublub.wav',
     smallestcreature: 'coralline/samples/smallestcreature.wav',
-    shelterpad: 'coralline/samples/shelterpad.wav',
     hellobell: 'coralline/samples/hellobell.wav',
     rupture: 'coralline/samples/rupture.wav',
     kalimbakiss: 'coralline/samples/kalimbakiss.wav',
@@ -16,43 +17,59 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentAudio = null;
   let currentBtn = null;
 
+  function resetButton(btn, card) {
+    if (!btn || !card) return;
+
+    const fill = card.querySelector('.waveform-fill');
+    const timeEl = card.querySelector('.audio-time');
+
+    if (fill) fill.style.width = '0%';
+    if (timeEl?.dataset.defaultTime) timeEl.textContent = timeEl.dataset.defaultTime;
+
+    btn.innerHTML = PLAY_ICON;
+    btn.classList.remove('playing');
+  }
+
+  function stopCurrentAudio() {
+    if (!currentAudio || !currentBtn) return;
+
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    resetButton(currentBtn, currentBtn.closest('.sample-card'));
+    currentAudio = null;
+    currentBtn = null;
+  }
+
   document.querySelectorAll('.play-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const sample = btn.dataset.sample;
+      const samplePath = samplePaths[sample];
       const card = btn.closest('.sample-card');
+      if (!samplePath || !card) return;
+
       const fill = card.querySelector('.waveform-fill');
       const timeEl = card.querySelector('.audio-time');
+      if (!fill || !timeEl) return;
 
-      // Stop current if playing
+      timeEl.dataset.defaultTime = timeEl.dataset.defaultTime || timeEl.textContent;
+
       if (currentAudio && currentBtn === btn) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        fill.style.width = '0%';
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.classList.remove('playing');
-        currentAudio = null;
-        currentBtn = null;
+        stopCurrentAudio();
         return;
       }
 
-      // Stop any other playing audio
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        const prevCard = currentBtn.closest('.sample-card');
-        prevCard.querySelector('.waveform-fill').style.width = '0%';
-        currentBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        currentBtn.classList.remove('playing');
-      }
+      stopCurrentAudio();
 
-      const audio = new Audio(samplePaths[sample]);
+      const audio = new Audio(samplePath);
       currentAudio = audio;
       currentBtn = btn;
 
-      btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+      btn.innerHTML = PAUSE_ICON;
       btn.classList.add('playing');
 
       audio.addEventListener('timeupdate', () => {
+        if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+
         const pct = (audio.currentTime / audio.duration) * 100;
         fill.style.width = pct + '%';
         const remaining = audio.duration - audio.currentTime;
@@ -62,77 +79,70 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       audio.addEventListener('ended', () => {
-        fill.style.width = '0%';
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.classList.remove('playing');
+        resetButton(btn, card);
         currentAudio = null;
         currentBtn = null;
       });
 
       audio.play().catch(() => {
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.classList.remove('playing');
+        resetButton(btn, card);
+        currentAudio = null;
+        currentBtn = null;
       });
     });
   });
 
-  // Coralline-Specific Load Behaviors 
-  window.addEventListener("load", () => {
-  const duration = 20 + Math.random() * 412;
+  const body = document.body;
+  const CHARS = "⑆⑇⑈⑉";
 
-  document.body.style.setProperty('--jitter', Math.random());
+  function jitterText(el) {
+    const final = el.dataset.jitterText || el.textContent;
+    el.dataset.jitterText = final;
 
-  setTimeout(() => {
-    document.body.classList.remove("unstable");
-  }, duration);
-});
+    let frame = 0;
 
-const CHARS = "⑆⑇⑈⑉";
+    const update = () => {
+      let output = "";
 
-function jitterText(el) {
-  const final = el.textContent;
-  let frame = 0;
-
-  const update = () => {
-    let output = "";
-
-    for (let i = 0; i < final.length; i++) {
-      if (i < frame) {
-        output += final[i];
-      } else {
-        output += CHARS[Math.floor(Math.random() * CHARS.length)];
+      for (let i = 0; i < final.length; i += 1) {
+        output += i < frame
+          ? final[i]
+          : CHARS[Math.floor(Math.random() * CHARS.length)];
       }
-    }
 
-    el.textContent = output;
+      el.textContent = output;
+      frame += 0.6;
 
-    frame += 1.2 / 2; // speed of convergence
+      if (frame < final.length) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = final;
+      }
+    };
 
-    if (frame < final.length) {
-      requestAnimationFrame(update);
-    } else {
-      el.textContent = final;
-    }
-  };
+    update();
+  }
 
-  update();
-}
-
-const jitterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
+  const jitterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
       jitterText(entry.target);
-      jitterObserver.unobserve(entry.target); // only trigger once
-    }
+      jitterObserver.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: '0px 0px -25px 0px'
   });
-}, {
-  threshold: 0.2,
-  rootMargin: '0px 0px -25px 0px'
-});
 
-// Observe only section headers (adjust selector if needed)
-document.querySelectorAll('.jitter').forEach(el => {
-  jitterObserver.observe(el);
-});
+  document.querySelectorAll('.jitter').forEach(el => {
+    jitterObserver.observe(el);
+  });
 
+  window.addEventListener("load", () => {
+    const duration = 20 + Math.random() * 412;
+
+    window.setTimeout(() => {
+      body.classList.remove("unstable");
+    }, duration);
+  });
 });
