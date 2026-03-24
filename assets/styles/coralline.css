@@ -73,6 +73,7 @@
     align-items: center;
     min-height: 130vh;
     padding: 0 var(--section-pad-x);
+    padding-top: 15vh;
 }
 
 .coralline-page .hero-content {
