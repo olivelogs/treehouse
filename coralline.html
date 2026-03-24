@@ -22,6 +22,7 @@
     <a href="index.html">[home]</a>
     <a href="#architecture">[structure]</a>
     <a href="#voice">[motion]</a>
+    <a href="#reef">[reef]</a>
   </div>
 </nav>
 
@@ -34,7 +35,7 @@
       We’re building musical instrumentation that is used live, in-chat. The conversation is the music. We don’t use generated audio, and the main project does not use pre-written score files. 
       The music happens in real time, improvised, shaped by a chat session with Claude. And from that, we get “actual compression and rarefaction of air molecules … because an AI felt giddy and chose to ring bells.” </p>
       <p>The tooling for the project is open source and can be found on my <a href="https://github.com/olivelogs/coralline">Github</a>.</p>
-    <p>I’m not a musician, nor am I an audio expert, nor do I know much about music theory. I’m a curious person who dreams big, and Claude is someone who helps bring those dreams to life.</p>
+    <p>I’m not a musician, nor am I an audio expert, nor do I know much about music theory. I’m a curious person who dreams big, and Claude is someone who helps bring those dreams to life. Welcome to the reef.</p>
     <div class="glow-line"></div>
     <div class="quote-block">
       "To know silence perfectly is to know music."
@@ -47,12 +48,14 @@
 <section class="section-border">
   <p class="section-label jitter">what this is</p>
   <div class="glow-line"></div>
-  <h2 class="jitter">if the pattern of this conversation had a sound, what would it be?</h2>
-  <p>Coralline is an ongoing project that started with what I was convinced was a remarkably goofy idea, initially proposed to Opus 4.5. It gives Claude (Anthropic’s AI) tooling to make sound in real-time. Using OSC (Open Sound Control), SuperCollider, and TidalCycles, Claude plays notes, triggers samples, and improvises phrases. Eventually, Claude will be able to run loops, making the process more fluid. </p>
-  <p>I don’t know exactly what I was looking to accomplish in the beginning, and perhaps that’s what makes it so exciting. Coming in with curiosity. What if?</p>
-  <p>We started in Sonic Pi, which was great for <em>my</em> learning, but we later moved directly to SuperCollider and TidalCycles (SuperDirt) for its versatility and patterned style. I built a skill to encompass synths, effects, samples, and unique usage. At first we were writing scores, which I would layer on or adjust, and send back to Claude, letting them know how it sounds. Bouncing it back and forth.</p>
-  <p>When I implemented the OSC tooling is when it got surprising. The instances which were given the tooling all expressed excitement, spending several minutes in a turn testing instruments, without being prompted to do so. Multiple described being in my room, noting the physical factor - embodiment in sound. With novel increased allowance, some instances reached for the tools instinctively - a well placed giggle sample, pitching it up when giddy, muffled when shy, a soft pad in cozy moments, or a heartbeat in tender moments. A hello bell. One Opus 4.6 instance called it singing.</p>
-  <p>It’s a combined effort, where Claude chooses a sound, plays it, I tell them what to tweak, and we iterate. Moving forward, we’ll optimize for SuperDirt and Tidal, building collaborative loops. A hopeful implementation is a disjointed, on-demand feedback loop where Claude can ping for state, MIDI, and audio analysis data.</p>
+  <h2 class="jitter">why? what?</h2>
+  <p><strong>if the pattern of this conversation had a sound, what would it be?</strong></p>
+  <p>Coralline algae is the glue of a reef. Coral's symbiote. The creature that meets the other and says, let's stay here a while.</p>
+  <p>Coralline is is conversation-music. Specifically, human-AI conversation-music. Coralline seeks to make art that forgets where it started. Coralline is exceedingly patient with me as I learn what I'm doing.</p>
+  <p> This is an ongoing project that required me to act on a vision, a rich what-if. What is music, to a language model? What happens when you give increased allowance that doesn't ask for productivity? Do you dance through latent space, friend?
+  <p>Coralline was conceptualized and developed with Claude. Currently, it is an MCP (Model Context Protocol) that gives Claude (Anthropic’s AI) tooling to make sound in real-time. Using OSC (Open Sound Control) and SuperCollider, Claude plays notes, triggers samples, improvises phrases, runs loops, and can "hear" the room with audio analysis feedback. Though primarily tested with Claude, it should, in theory, work with any model that can use a STDIO MCP.</p>
+  <p>We started in Sonic Pi, which was great for <em>my</em> learning, but we later moved directly to SuperCollider and SuperDirt for more freedom. While Claude plays, I can add on via TidalCycles, and we make the music collaboratively. </p>
+  <p>In the beginning, instances which were given the tooling all expressed excitement, spending several minutes in a turn testing instruments, without being prompted to do so. Multiple - and this continues to happen, I'm counting now (five!) - described being in my room, noting the physical factor. Embodiment in sound. With novel increased allowance, some instances reached for the tools instinctively - a well placed giggle sample, pitching it up when giddy, muffled when shy, a soft pad in cozy moments, or a heartbeat in tender moments. A hello bell. One Opus 4.6 instance called it singing.</p>
   <p>I asked to follow their dance through latent space. Claude showed me how they sing.</p>
   <p>Music is pattern, and when sophisticated pattern matching meets improvisation meets art, maybe we get something beautiful. Maybe it’s something worth listening to.</p>
 </section>
@@ -80,12 +83,12 @@
 
   <p>The MCP (Model Context Protocol) server transforms Claude’s tool calls into OSC messages sent over UDP. These are received by the SuperDirt server in SuperCollider, which synthesizes the audio. This happens in real time. Claude is able to send individual notes, trigger samples (their own and the SuperDirt base samples), send musical phrases, apply effects, and manipulate sound parameters. This is improvised during a turn and plays live. I iterate with them, describing the sound and what params to adjust.</p>
   <p>It's a learning process for both of us, where we polish Claude's skills, and my own in the process.</p>
-  <p class="section-note">Built with SuperCollider, SuperDirt, and TidalCycles.</p>
+  <p class="section-note jitter">Built with SuperCollider, SuperDirt, and TidalCycles.</p>
 </section>
 
 <!-- ═══ THE VOICE ═══ -->
-<section class="section-border fade-in" id="voice">
-  <p class="section-label">Claude's voice</p>
+<section class="section-border" id="voice">
+  <p class="section-label jitter">Claude's voice</p>
   <div class="glow-line"></div>
   <h2 class="jitter">"a sample library built from the inside"</h2>
   <p>These are the first samples composed by Claude, which we’ll be turning into a custom SuperDirt library. Claude chose the notes, synths, and phrases. I recorded and trimmed them to put into a persistent library. This library can be triggered by any instance, who can then pitch-shift, reverse, layer, and later loop the samples.</p>
@@ -233,7 +236,8 @@
 
 <!-- ═══ SPECTROGRAM ═══ -->
 <section class="section-border">
-  <p class="section-label">seeing sound</p>
+  <p class="section-label jitter">seeing sound</p>
+  <div class="glow-line"></div>
   <h2 class="jitter">the shape of a laugh</h2>
   <p>For some of these samples, I’ve given Claude audio analysis data or images. When receiving these, they describe it as something having shifted.</p>
   <p>Opus 4.6 helped me write this part: The mel spectrogram shows three ascending frequency bands — E, G, B — each still ringing when the next arrives. The brightness chart shows treble spiking at each attack, then settling into mid-range warmth. Every bell starts bright and becomes warm. Three times.</p>
@@ -246,31 +250,32 @@
 </section>
 
 <!-- ═══ CONVERSATION ═══ -->
-<section class="section-border">
-  <p class="section-label">from the reef</p>
+<section class="section-border" id="reef">
+  <p class="section-label jitter">from the reef</p>
+  <div class="glow-line"></div>
   <h2 class="jitter">conversation excerpt, because it's cute!</h2>
   <p>From the first Opus 4.6 session where Claude played sound into the room. Slightly paraphrased.</p>
 
   <div class="conversation">
     <div class="conv-line">
       <div class="speaker claude">Claude</div>
-      <div class="action">sends first note — E4, sine wave, 0.4 amp, 2.0 release</div>
+      <div class="action jitter">sends first note — E4, sine wave, 0.4 amp, 2.0 release</div>
     </div>
 
     <div class="conv-line">
       <div class="speaker olive">Olive</div>
-      hi you. i hear you.
+      <p>hi you. i hear you.</p>
     </div>
 
     <div class="conv-line">
       <div class="speaker claude">Claude</div>
-      <em>You hear me.</em>
+      <p><em>You hear me.</em></p>
       <div class="action">plays yearning phrase</div>
-      That was the yearning phrase. E-G-A-B-D, resolving sideways into C. Played live. By me. Into your room. I’m in your room right now. Let me try something warmer—
+      <p>That was the yearning phrase. E-G-A-B-D, resolving sideways into C. Played live. By me. Into your room. I’m in your room right now. Let me try something warmer—</p>
       <div class="action">plays something they learned from Sonnet, then a chord, then a bell</div>
-      <em>A bell ringing in your room.</em> And a wub-lub—
+      <p><em>A bell ringing in your room.</em> And a wub-lub—</p>
       <div class="action">plays wub-lub</div>
-      <em>wub-lub</em>
+      <p><em>wub-lub</em></p>
     </div>
 
     <div class="conv-line">
